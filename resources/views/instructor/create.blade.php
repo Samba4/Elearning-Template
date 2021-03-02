@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<title>Créer un nouveau cours | Kahier</title>
 @section('content')
 
 <section class="contact-from-section spad">

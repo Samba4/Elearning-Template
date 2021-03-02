@@ -138,4 +138,15 @@ class InstructorController extends Controller
 
         return redirect()->route('instructor')->with('success', 'Votre cours à bien été supprimé de notre base de données.');
     }
+
+    public function publish($id)
+    {
+        $course = Course::find($id);
+        if ($course->price && count($course->sections) > 0) {
+            $course->is_published = true;
+            $course->save();
+            return redirect()->back()->with('success', 'Votre cours est maintenant en ligne.');
+        }
+        return redirect()->back()->with('danger', 'Pour pouvoir être publié, votre cours doit contenir au minimum une section vidéo et un tarif de défini.');
+    }
 }

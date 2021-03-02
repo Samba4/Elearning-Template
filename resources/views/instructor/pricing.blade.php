@@ -1,5 +1,5 @@
 @extends('layouts.instructor-app')
-
+<title>Tarifs - {{$course->title}} | Kahier</title>
 @section('content')
 
 <section class="contact-from-section spad">
@@ -11,7 +11,13 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="content">
-                        <p>Tarif du cours</p>
+                        <p>Tarification en vigueur pour ce cours :
+                            @if ($course->price === "0.00")
+                            Offert
+                            @else
+                            {{$course->price}}€
+                            @endif
+                        </p>
                         <p>Choisissez un niveau de tarif pour votre cours ci-dessous et cliquez sur « Enregistrer ». Le
                             prix affiché visible par les participants dans d'autres devises est calculé à l'aide d'une
                             grille tarifaire en fonction du tarif auquel celui-ci correspond.</p>
@@ -20,7 +26,10 @@
                     </div>
                     <div class="col-lg-12">
                         <select class="form-control" name="price">
-
+                            <option value="00.01" {{$course->price === 00.01 ? 'selected' : ''}}>Offert</option>
+                            <option value="04.99" {{$course->price === 04.99 ? 'selected' : ''}}>4,99 €</option>
+                            <option value="09.99" {{$course->price === 09.99 ? 'selected' : ''}}>9,99 €</option>
+                            <option value="14.99" {{$course->price === 14.99 ? 'selected' : ''}}>14,99 €</option>
                             <option value="19.99" {{$course->price === 19.99 ? 'selected' : ''}}>19,99 €</option>
                             <option value="29.99" {{$course->price === 29.99 ? 'selected' : ''}}>29,99 €</option>
                             <option value="39.99" {{$course->price === 39.99 ? 'selected' : ''}}>39,99 €</option>

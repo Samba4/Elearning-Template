@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Redirect;
 
 Route::get('/', 'MainController@home')->name('main.home');
 
+/// Cours
+Route::get('/nos-cours', 'CourseController@index')->name('courses');
+Route::get('/cours/{slug}', 'CourseController@show')->name('course.show');
 
 Auth::routes();
 Route::get('/logout', function () {
@@ -35,8 +38,19 @@ Route::post('/formateur/store', 'InstructorController@store')->name('instructor.
 Route::get('/formateur/cours/{id}/edit', 'InstructorController@edit')->name('instructor.edit');
 Route::put('/formateur/cours/{id}/update', 'InstructorController@update')->name('instructor.update');
 Route::get('/formateur/cours/{id}/destroy', 'InstructorController@destroy')->name('instructor.destroy');
+
+///Mise en ligne
+Route::get('/formateur/cours/{id}/publish', 'InstructorController@publish')->name('instructor.publish');
+
+
+/// Tarification
 Route::get('/formateur/cours/{id}/pricing', 'PricingController@pricing')->name('pricing');
 Route::post('/formateur/cours/{id}/pricing/store', 'PricingController@store')->name('pricing.store');
 
-/// Gestion des programmes des cours
-Route::get('/formateur/cours/{id}/programme', 'CurriculumController@index')->name('programme');
+/// Gestion des sections des cours
+Route::get('/formateur/cours/{id}/section', 'CurriculumController@index')->name('section');
+Route::get('/formateur/cours/{id}/section/create', 'CurriculumController@create')->name('section.create');
+Route::post('/formateur/cours/{id}/section/store', 'CurriculumController@store')->name('section.store');
+Route::get('/formateur/cours/{id}/section/{section}/edit', 'CurriculumController@edit')->name('section.edit');
+Route::put('/formateur/cours/{id}/section/{section}/update', 'CurriculumController@update')->name('section.update');
+Route::get('/formateur/cours/{id}/section/{section}/destroy', 'CurriculumController@destroy')->name('section.destroy');

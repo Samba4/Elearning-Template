@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<title>Mes cours | Kahier</title>
 @section('content')
 
 <section class="related-post-section spad">
@@ -22,12 +22,15 @@
             <div class="col-md-4">
                 <div class="card-body">
                     <div class="bi-text">
-                        <h5><a class="btn font-weight-bold" href="#">{{$course->title}}</a></h5>
+                        <h5><a class="btn font-weight-bold"
+                                href="{{route('course.show', $course->slug)}}">{{$course->title}}</a></h5>
                         <span><i class="fa fa-clock-o"></i> {{$course->created_at}}</span>
                     </div>
                 </div>
-                <div class="blog-item set-bg" data-setbg="/storage/courses/{{$course->user_id}}/{{$course->image}}">
-                </div>
+                <a href="{{route('course.show', $course->slug)}}">
+                    <div class="blog-item set-bg" data-setbg="/storage/courses/{{$course->user_id}}/{{$course->image}}">
+                    </div>
+                </a>
                 <div class="btn-actions d-flex justify-content-center">
                     <a href="{{route('instructor.edit', $course->id)}}" class="primary-btn">
                         <i class="fas fa-edit"></i>
