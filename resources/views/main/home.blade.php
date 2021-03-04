@@ -46,7 +46,7 @@
                         <li><i class="fas fa-check"></i> Plus de 500 cours disponibles</li>
                         <li><i class="fas fa-check"></i> Contenu vidéo</li>
                     </ul>
-                    <a href="#" class="ha-btn">Voir les cours</a>
+                    <a href="{{route('courses')}}" class="ha-btn">Voir les cours</a>
                 </div>
             </div>
         </div>
@@ -154,46 +154,19 @@
             </div>
         </div>
         <div class="row">
+            @foreach ($suggestions as $suggestion)
             <div class="col-lg-6">
                 <div class="latest-item set-bg"
-                    data-setbg="https://blog.hyperiondev.com/wp-content/uploads/2019/02/Blog-Types-of-Web-Dev.jpg">
-                    <div class="li-tag">19,99 €</div>
+                    data-setbg="/storage/courses/{{$suggestion->user_id}}/{{$suggestion->image}}">
+                    <div class="li-tag">{{$suggestion->price}} €</div>
                     <div class="li-text">
-                        <h5><a href="#">Les bases de Symfony 4</a></h5>
-                        <span><i class="fa fas-user"></i> Par <b>Samba COULIBALY</b></span>
+                        <h5><a href="{{route('course.show', $suggestion->slug)}}">{{$suggestion->title}}</a></h5>
+                        <span><i class="fa fas-user"></i> Par <b>{{$suggestion->user->prenom}}
+                                {{$suggestion->user->nom}}</b></span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="latest-item set-bg"
-                    data-setbg="https://blog.hyperiondev.com/wp-content/uploads/2019/02/Blog-Types-of-Web-Dev.jpg">
-                    <div class="li-tag">19,99 €</div>
-                    <div class="li-text">
-                        <h5><a href="#">Les bases de Symfony 4</a></h5>
-                        <span><i class="fa fas-user"></i> Par <b>Samba COULIBALY</b></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="latest-item set-bg"
-                    data-setbg="https://blog.hyperiondev.com/wp-content/uploads/2019/02/Blog-Types-of-Web-Dev.jpg">
-                    <div class="li-tag">19,99 €</div>
-                    <div class="li-text">
-                        <h5><a href="#">Les bases de Symfony 4</a></h5>
-                        <span><i class="fa fas-user"></i> Par <b>Samba COULIBALY</b></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="latest-item set-bg"
-                    data-setbg="https://blog.hyperiondev.com/wp-content/uploads/2019/02/Blog-Types-of-Web-Dev.jpg">
-                    <div class="li-tag">19,99 €</div>
-                    <div class="li-text">
-                        <h5><a href="#">Les bases de Symfony 4</a></h5>
-                        <span><i class="fa fas-user"></i> Par <b>Samba COULIBALY</b></span>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>

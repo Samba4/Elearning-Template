@@ -33,7 +33,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="{{route('participants')}}">
                 <i class="fas fa-book"></i>
                 Mes cours
             </a>
@@ -50,40 +50,76 @@
             </ul>
         </li>
         <li>
-            <a href="#">
+            <a href="{{route('panier')}}">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="badge badge-pill badge-danger">1</span>
+                @if (count(\Cart::session(Auth::user()->id)->getContent()) > 0)
+                <span
+                    class="badge badge-pill badge-danger">{{count(\Cart::session(Auth::user()->id)->getContent())}}</span>
+                @endif
             </a>
+            @if (count(\Cart::session(Auth::user()->id)->getContent()) > 0)
             <ul class="dropdown px-2 py-2">
+                @foreach (\Cart::session(Auth::user()->id)->getContent() as $item)
                 <li>
                     <div class="d-flex">
                         <img class="avatar border-rounded"
-                            src="https://blog.hyperiondev.com/wp-content/uploads/2019/02/Blog-Types-of-Web-Dev.jpg" />
+                            src="/storage/courses/{{$item->model->user_id}}/{{$item->model->image}}" />
                         <div class="user-infos ml-3">
-                            <small>Titre du cours</small>
-                            <p class="text-danger">29,99 €</p>
+                            <small>{{$item->model->title}}</small>
+                            <p class="text-danger">{{$item->model->price}} €</p>
                         </div>
                     </div>
                 </li>
+                @endforeach
             </ul>
+            @else
+            <ul class="dropdown px-2 py-2 text-lg-center">
+                <li>
+                    <div class="empty-car">
+                        <p>Votre panier est vide.</p>
+                        <a class="btn btn-link" href="{{route('courses')}}">
+                            Continuez vos achats.
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            @endif
         </li>
         <li>
-            <a href="#">
+            <a href="{{route('panier')}}">
                 <i class="fas fa-heart"></i>
-                <span class="badge badge-pill badge-danger">1</span>
+                @if (count(\Cart::session(Auth::user()->id.'_whislist')->getContent()) > 0)
+                <span
+                    class="badge badge-pill badge-danger">{{count(\Cart::session(Auth::user()->id.'_whislist')->getContent())}}</span>
+                @endif
             </a>
+            @if (count(\Cart::session(Auth::user()->id.'_whislist')->getContent()) > 0)
             <ul class="dropdown px-2 py-2">
+                @foreach (\Cart::session(Auth::user()->id.'_whislist')->getContent() as $item)
                 <li>
                     <div class="d-flex">
                         <img class="avatar border-rounded"
-                            src="https://blog.hyperiondev.com/wp-content/uploads/2019/02/Blog-Types-of-Web-Dev.jpg" />
+                            src="/storage/courses/{{$item->model->user_id}}/{{$item->model->image}}" />
                         <div class="user-infos ml-3">
-                            <small>Titre du cours</small>
-                            <p class="text-danger">19,99 €</p>
+                            <small>{{$item->model->title}}</small>
+                            <p class="text-danger">{{$item->model->price}} €</p>
                         </div>
                     </div>
                 </li>
+                @endforeach
             </ul>
+            @else
+            <ul class="dropdown px-2 py-2 text-lg-center">
+                <li>
+                    <div class="empty-car">
+                        <p>Votre liste d'envie est vide.</p>
+                        <a class="btn btn-link" href="{{route('courses')}}">
+                            Continuez vos achats.
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            @endif
         </li>
         <li>
             <a class="nav-link" href="#">

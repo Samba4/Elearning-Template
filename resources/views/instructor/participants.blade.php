@@ -9,24 +9,26 @@
                 <h3 class="mb-5">Participants</h3>
                 <table class="table">
                     <thead>
-                      <tr>
-                        <th scope="col">Inscription</th>
-                        <th scope="col">Participant</th>
-                        <th scope="col">Cours</th>
-                        <th scope="col">Prix payé</th>
-                        <th scope="col">Votre revenu</th>
-                      </tr>
+                        <tr>
+                            <th scope="col">Inscription</th>
+                            <th scope="col">Participant</th>
+                            <th scope="col">Cours</th>
+                            <th scope="col">Prix payé</th>
+                            <th scope="col">Votre revenu</th>
+                        </tr>
                     </thead>
                     <tbody>
+                        @foreach ($eleves as $data)
                         <tr>
-                          <th>20/03/2020</th>
-                          <td>utilisateur@email.com</td>
-                          <td>Titre du cours</td>
-                          <td>19,99 €</td>
-                          <td>13,99 €</td>
+                            <th>{{$data->created_at->format('Y-m-d')}}</th>
+                            <td>{{$data->email}}</td>
+                            <td>{{$data->course->title}}</td>
+                            <td>{{$data->amount}} €</td>
+                            <td>{{$data->instructor_part}} €</td>
                         </tr>
+                        @endforeach
                     </tbody>
-                  </table>
+                </table>
             </div>
         </div>
     </div>

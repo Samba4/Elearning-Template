@@ -10,6 +10,7 @@ class MainController extends Controller
 {
     public function home()
     {
-        return view('main.home');
+        $suggestions = Course::all()->where('is_published', true)->random()->limit(4)->get();
+        return view('main.home', compact('suggestions'));
     }
 }

@@ -34,15 +34,26 @@
                         </div>
                     </div>
                     <div class="col-lg-2">
-                        <b>
-                            @if ($course->price == "0.01")
-                            Cours offert par le formateur
-                            @else
-                            {{$course->price}}€
-                            @endif
-                        </b>
+                        @if ($course->price == "00.00")
+                        <p><b>
+                                Cours offert
+                            </b></p>
+                        <a href="{{route('souhaits', $course->id)}}">
+                            <i style="color: rgb(202, 38, 92)" class="fas fa-heart fa-2x"></i>
+                        </a>
+                        @else
+                        <p><b>
+                                {{$course->price}}€
+                            </b></p>
+                        <a href="{{route('souhaits', $course->id)}}">
+                            <i style="color: rgb(202, 38, 92)" class="fas fa-heart fa-2x"></i>
+                        </a>
+                        <a href="{{route('panier.store', $course->id)}}">
+                            <i style="color: rgb(12, 11, 12)" class="fas fa-cart-arrow-down fa-2x"></i>
+                        </a>
+                        @endif
                     </div>
-                </div>
+                </div>*
                 @endforeach
             </div>
         </div>

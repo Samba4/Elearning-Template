@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use Darryldecode\Cart\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PricingController extends Controller
 {
@@ -30,6 +32,9 @@ class PricingController extends Controller
         $course = Course::find($id);
         $course->price = $request->input('price');
 
+        $test = \Cart::session(Auth::user()->id)->update($course->id, [
+            'price' => $course->price,
+        ]);
         $course->save();
 
         return redirect()->route('instructor.edit', $course->id)->with('success', 'La tarification de votre cours à bien été ajustée.');

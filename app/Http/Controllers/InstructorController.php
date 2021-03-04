@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Payment;
 use App\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -142,11 +143,21 @@ class InstructorController extends Controller
     public function publish($id)
     {
         $course = Course::find($id);
-        if ($course->price && count($course->sections) > 0) {
+        if ($course->price >= 0 && count($course->sections) > 0) {
             $course->is_published = true;
             $course->save();
             return redirect()->back()->with('success', 'Votre cours est maintenant en ligne.');
         }
         return redirect()->back()->with('danger', 'Pour pouvoir être publié, votre cours doit contenir au minimum une section vidéo et un tarif de défini.');
+    }
+
+    public function participants($id)
+    {
+        $course = Course::find($id);
+        $eleves = Payment::where('course_id', $course->id)->get();
+        return view('instructor.participants', [
+            'course' => $course,
+            'eleves' => $eleves,
+        ]);
     }
 }

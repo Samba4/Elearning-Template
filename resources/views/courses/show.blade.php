@@ -48,13 +48,14 @@
                                         <i class="fa fa-star"></i>
                                     </div>
                                     <div class="pi-price mt-5">
-                                        @if ($course->price == "0.01")
+                                        @if ($course->price == "0")
                                         <h2>Cours offert</h2>
                                         @else
                                         <h2><span>€</span>{{$course->price}}</h2>
                                         @endif
                                     </div>
-                                    <a href="#" class="price-btn">M'inscrire <i class="fas fa-arrow-right"></i></a>
+                                    <a href="{{route('panier.store', $course->id)}}" class="price-btn">M'inscrire <i
+                                            class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -65,13 +66,12 @@
     </div>
 </section>
 
-
 <section class="related-post-section spad">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="section-title">
-                    <h2>Ces cours peuvent vous intéresser</h2>
+                    <h2>Les participants ont également acheté</h2>
                 </div>
             </div>
         </div>
@@ -91,4 +91,5 @@
         </div>
     </div>
 </section>
+
 @endsection

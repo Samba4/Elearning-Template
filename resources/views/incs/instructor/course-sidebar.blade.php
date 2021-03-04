@@ -7,23 +7,23 @@
         <h4 class="btn text-white pl-0">Modification du cours</h4>
         <ul class="list-unstyled components mb-5">
             <li>
-                <a href="{{route('section', $course->id)}}">Section</a>
+                <a href="{{route('section', $course ?? ''->id)}}">Section</a>
             </li>
             <li>
-                <a href="#">Page d'accueil du cours</a>
+                <a href="{{route('instructor.edit', $course ?? ''->id)}}">Page d'accueil du cours</a>
             </li>
         </ul>
 
         <h4 class="btn text-white pl-0">Gestion du cours</h4>
         <ul class="list-unstyled components mb-5">
             <li>
-                <a href="{{route('pricing', $course->id)}}">Tarification</a>
+                <a href="{{route('pricing', $course ?? ''->id)}}">Tarification</a>
             </li>
             <li>
-                <a href="#">Participants</a>
+                <a href="{{route('instructor.participants', $course ?? ''->id)}}">Participants</a>
             </li>
             <li>
-                <a class="btn btn-danger text-left px-3" href="{{route('instructor.destroy', $course->id)}}">
+                <a class="btn btn-danger text-left px-3" href="{{route('instructor.destroy', $course ?? ''->id)}}">
                     <i class="fas fa-trash"></i>
                     Supprimer le cours
                 </a>
@@ -31,7 +31,7 @@
             </li>
         </ul>
         <div class="d-flex justify-content-around">
-            <a class="primary-btn" href="{{route('instructor.publish', $course->id)}}">
+            <a class="primary-btn" href="{{route('instructor.publish', $course ?? ''->id)}}">
                 <i class="fas fa-check"></i>
                 Mettre en ligne
             </a>
