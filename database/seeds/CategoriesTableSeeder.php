@@ -15,46 +15,37 @@ class CategoriesTableSeeder extends Seeder
         $category = new Category();
         $category->icon = '<i class="fas fa-laptop"></i>';
         $category->name = "Bureautique";
-        $category->save();
-
-        $category = new Category();
-        $category->icon = '<i class="fas fa-business-time"></i>';
-        $category->name = "Business";
-        $category->save();
-
-        $category = new Category();
-        $category->icon = '<i class="fas fa-database"></i>';
-        $category->name = "Data";
+        $category->slug = "bureautique";
         $category->save();
 
         $category = new Category();
         $category->icon = '<i class="fas fa-code"></i>';
         $category->name = "Développement";
+        $category->slug = "developpement";
         $category->save();
 
         $category = new Category();
         $category->icon = '<i class="fas fa-project-diagram"></i>';
         $category->name = "Gestion de projet";
+        $category->slug = "gestion-de-projet";
         $category->save();
 
         $category = new Category();
         $category->icon = '<i class="fas fa-comments-dollar"></i>';
         $category->name = "Marketing & Communication";
-        $category->save();
-
-        $category = new Category();
-        $category->icon = '<i class="fas fa-school"></i>';
-        $category->name = "Pédagogie";
+        $category->slug = "marketing-communication";
         $category->save();
 
         $category = new Category();
         $category->icon = '<i class="fas fa-terminal"></i>';
         $category->name = "Systèmes & Réseaux";
+        $category->slug = "systemes-reseaux";
         $category->save();
 
         $category = new Category();
         $category->icon = '<i class="far fa-question-circle"></i>';
         $category->name = "Autres";
+        $category->slug = "autres";
         $category->save();
     }
 }

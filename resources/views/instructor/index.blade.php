@@ -27,7 +27,7 @@
                         <span><i class="fa fa-clock-o"></i> {{$course->created_at}}</span>
                     </div>
                 </div>
-                <a href="{{route('course.show', $course->slug)}}">
+                <a href="{{route('instructor.edit', $course->id)}}">
                     <div class="blog-item set-bg" data-setbg="/storage/courses/{{$course->user_id}}/{{$course->image}}">
                     </div>
                 </a>

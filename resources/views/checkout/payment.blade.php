@@ -17,6 +17,11 @@
                 </div>
                 <button id="complete-order" type="submit" class="primary-btn my-3">Procéder au paiement</button>
             </form>
+            <a href="{{route('panier')}}">
+                <button type="button" class="primary-btn my-0 w-20">Retour au panier
+                    <i style="color: rgb(0, 0, 0)" class="fas fa-undo-alt fa-1x"></i>
+                </button>
+            </a>
             <div class="order-details my-5">
                 <h3>Détails de la commande</h3>
 

@@ -18,7 +18,11 @@ class PricingController extends Controller
     public function pricing($id)
     {
         $course = Course::find($id);
-        return view('instructor.pricing', compact('course'));
+        if ($course->user == Auth::user()) {
+            return view('instructor.pricing', compact('course'));
+        } else {
+            return redirect()->route('main.home')->with('danger', 'Vous ne pouvez changer la tarification de ce cours s\'en en être le propriétaire.');
+        }
     }
 
     /**
@@ -37,6 +41,6 @@ class PricingController extends Controller
         ]);
         $course->save();
 
-        return redirect()->route('instructor.edit', $course->id)->with('success', 'La tarification de votre cours à bien été ajustée.');
+        return redirect()->back()->with('success', 'La tarification de votre cours à bien été ajustée.');
     }
 }

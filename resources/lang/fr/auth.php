@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -13,7 +12,7 @@ return [
     |
     */
 
-    'failed' => 'Votre e-mail ou votre mot de passe n\'est pas correcte, veuillez réessayez.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'failed'   => 'Ces identifiants ne correspondent pas à nos enregistrements.',
+    'password' => 'Le mot de passe fourni est incorrect.',
+    'throttle' => 'Tentatives de connexion trop nombreuses. Veuillez essayer de nouveau dans :seconds secondes.',
 ];

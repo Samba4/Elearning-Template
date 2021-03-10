@@ -13,8 +13,10 @@
                             <th scope="col">Inscription</th>
                             <th scope="col">Participant</th>
                             <th scope="col">Cours</th>
-                            <th scope="col">Prix payé</th>
                             <th scope="col">Votre revenu</th>
+                            <th scope="col">Frais de Kahier</th>
+                            <th scope="col">Taxe TVA</th>
+                            <th scope="col">Prix payé</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,8 +25,10 @@
                             <th>{{$data->created_at->format('Y-m-d')}}</th>
                             <td>{{$data->email}}</td>
                             <td>{{$data->course->title}}</td>
-                            <td>{{$data->amount}} €</td>
                             <td>{{$data->instructor_part}} €</td>
+                            <td>{{$data->kahier_part}} €</td>
+                            <td>{{$data->tva}} €</td>
+                            <td>{{$data->amount}} €</td>
                         </tr>
                         @endforeach
                     </tbody>

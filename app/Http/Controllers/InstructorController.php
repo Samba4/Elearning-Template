@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Course;
 use App\Payment;
 use App\Category;
+use App\CourseUser;
+use App\Policies\InstructorPolicy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -89,10 +92,14 @@ class InstructorController extends Controller
     {
         $course = Course::find($id);
         $categories = Category::all();
-        return view('instructor.edit', [
-            'course' => $course,
-            'categories' => $categories,
-        ]);
+        if ($course->user == Auth::user()) {
+            return view('instructor.edit', [
+                'course' => $course,
+                'categories' => $categories,
+            ]);
+        } else {
+            return redirect()->route('main.home')->with('danger', 'Vous ne pouvez pas accéder à cette ressource.');
+        }
     }
 
     /**
@@ -123,7 +130,7 @@ class InstructorController extends Controller
             $course->image = $file;
         }
         $course->save();
-        return redirect()->route('instructor')->with('success', 'Vos modifications ont été apportées avec succes');
+        return redirect()->back()->with('success', 'Vos modifications ont été apportées avec succes');
     }
 
     /**
@@ -135,18 +142,27 @@ class InstructorController extends Controller
     public function destroy($id)
     {
         $course = Course::find($id);
-        $course->delete();
+        $eleves = Payment::where('course_id', $course->id)->get();
 
-        return redirect()->route('instructor')->with('success', 'Votre cours à bien été supprimé de notre base de données.');
+        if ($course->user == Auth::user()) {
+            if ($eleves == null) {
+                return redirect()->back()->with('danger', 'Vous ne pouvez pas supprimer ce cours, vous avez des participants.');
+            } else {
+                $course->delete();
+                return redirect()->route('instructor')->with('success', 'Votre cours à bien été supprimé de notre base de données.');
+            }
+        } else {
+            return redirect()->route('main.home')->with('danger', 'Vous ne pouvez supprimer ce cours, vous n\'en n\'êtes pas le propriétaire.');
+        }
     }
 
     public function publish($id)
     {
         $course = Course::find($id);
-        if ($course->price >= 0 && count($course->sections) > 0) {
+        if ($course->price >= 2.98 && count($course->sections) > 0) {
             $course->is_published = true;
             $course->save();
-            return redirect()->back()->with('success', 'Votre cours est maintenant en ligne.');
+            return redirect()->route('courses')->with('success', 'Votre cours est maintenant en ligne.');
         }
         return redirect()->back()->with('danger', 'Pour pouvoir être publié, votre cours doit contenir au minimum une section vidéo et un tarif de défini.');
     }

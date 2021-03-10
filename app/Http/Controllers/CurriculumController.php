@@ -48,7 +48,7 @@ class CurriculumController extends Controller
 
         $section->save();
 
-        return redirect()->route('section', $course->id)->with('success', 'Votre section à été ajoutée avec succès.');
+        return redirect()->back()->with('success', 'Votre section à été ajoutée avec succès.');
     }
 
     public function edit($id, $sectionId)

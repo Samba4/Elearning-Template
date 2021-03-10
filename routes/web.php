@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,20 +17,25 @@ use Illuminate\Support\Facades\Redirect;
 */
 
 Route::get('/', 'MainController@home')->name('main.home');
+Route::get('/test', 'MainController@test')->name('main.test');
+
+Route::get('profil/{id}', 'ProfilController@index')->name('profil');
+Route::get('profil/{id}/create', 'ProfilController@create')->name('profil.create');
+Route::post('profil/{id}/store', 'ProfilController@store')->name('profil.store');
+Route::get('profil/{id}/edit', 'ProfilController@edit')->name('profil.edit');
+Route::put('profil/{id}/update', 'ProfilController@update')->name('profil.update');
+Route::get('profil/{id}/destroy', 'ProfilController@destroy')->name('profil.destroy');
 
 /// Cours
 Route::get('/nos-cours', 'CourseController@index')->name('courses');
 Route::get('/cours/{slug}', 'CourseController@show')->name('course.show');
+Route::get('/cours/categorie/{id}', 'CourseController@filter')->name('course.filter');
+
+/// Cours d'Udemy
+Route::get('cours/udemy/{slug}', 'UdemyController@udemyshow')->name('udemy.show');
 
 Auth::routes();
-Route::get('/logout', function () {
-    auth()->logout();
-    Session()->flush();
-
-    return Redirect::to('/');
-})->name('logout');
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout', 'LogoutController@logout')->name('logout');
 
 
 /// Gestion des cours
@@ -45,6 +51,8 @@ Route::get('/formateur/cours/{id}/publish', 'InstructorController@publish')->nam
 
 /// Vue Participant
 Route::get('mes-cours', 'ParticipantController@index')->name('participants');
+Route::get('mon-cours/{slug}', 'ParticipantController@show')->name('participant.show');
+Route::get('mon-cours/{slug}/{section}', 'ParticipantController@section')->name('participant.section');
 
 /// Tarification
 Route::get('/formateur/cours/{id}/pricing', 'PricingController@pricing')->name('pricing');

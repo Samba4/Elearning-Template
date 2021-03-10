@@ -25,6 +25,7 @@
                                 name="description"></textarea>
                         </div>
                         <div class="col-lg-12">
+                            <label for="categorie">Catégorie</label>
                             <select class="form-control" name="category">
                                 @foreach ($categories as $categorie)
                                 <option value="{{$categorie->id}}">{{$categorie->name}}</option>
@@ -32,7 +33,7 @@
                             </select>
                         </div>
                         <div class="col-lg-12 mt-3">
-                            <label for="image">Image du cours</label>
+                            <label for="image">Image de la formation</label>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <input type="file" name="image" />

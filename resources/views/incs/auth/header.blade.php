@@ -1,3 +1,11 @@
+@php
+use App\Category;
+use App\CourseUser;
+use Darryldecode\Cart\Cart;
+$courseUser = CourseUser::where('user_id', Auth::user()->id)->get();
+@endphp
+
+
 <nav class="mainmenu mobile-menu">
     <ul>
         <li class="active">
@@ -12,11 +20,14 @@
                 Suivre un cours
             </a>
             <ul class="dropdown px-2 py-3">
+                @foreach (Category::all() as $categorie)
                 <li>
-                    <a href="#">
-                        Catégorie
+                    <a href="{{route('course.filter', $categorie->id) }}">
+                        {!!$categorie->icon!!}
+                        {{$categorie->name}}
                     </a>
                 </li>
+                @endforeach
             </ul>
         </li>
         <li>
@@ -38,15 +49,31 @@
                 Mes cours
             </a>
             <ul class="dropdown">
+                @if(count($courseUser) > 0)
+                @foreach ($courseUser as $item)
                 <li>
                     <div class="d-flex  ml-2 my-3">
-                        <img class="avatar border-rounded"
-                            src="https://blog.hyperiondev.com/wp-content/uploads/2019/02/Blog-Types-of-Web-Dev.jpg" />
+                        <a href="{{route('participant.show', $item->course->slug)}}">
+                            <img class="avatar border-rounded"
+                                src="/storage/courses/{{$item->course->user_id}}/{{$item->course->image}}" />
+                        </a>
                         <div class="user-infos">
-                            <a href="#"><small>Titre du cours</small></a>
+                            <a
+                                href="{{route('participant.show', $item->course->slug)}}"><small>{{$item->course->title}}</small></a>
                         </div>
                     </div>
                 </li>
+                @endforeach
+                @else
+                <li>
+                    <div class="empty-car">
+                        <p class="text-center">Votre panier est vide.</p>
+                        <a class="btn btn-link" href="{{route('courses')}}">
+                            Continuez vos achats.
+                        </a>
+                    </div>
+                </li>
+                @endif
             </ul>
         </li>
         <li>
@@ -62,12 +89,20 @@
                 @foreach (\Cart::session(Auth::user()->id)->getContent() as $item)
                 <li>
                     <div class="d-flex">
-                        <img class="avatar border-rounded"
-                            src="/storage/courses/{{$item->model->user_id}}/{{$item->model->image}}" />
+                        <a href="{{route('course.show', $item->model->slug)}}"><img class="avatar border-rounded"
+                                src="/storage/courses/{{$item->model->user_id}}/{{$item->model->image}}" />
+                        </a>
                         <div class="user-infos ml-3">
                             <small>{{$item->model->title}}</small>
                             <p class="text-danger">{{$item->model->price}} €</p>
                         </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="empty-car">
+                        <a class="btn btn-link" href="{{route('panier')}}">
+                            Voir mon panier
+                        </a>
                     </div>
                 </li>
                 @endforeach
@@ -106,6 +141,13 @@
                         </div>
                     </div>
                 </li>
+                <li>
+                    <div class="empty-car">
+                        <a class="btn btn-link" href="{{route('panier')}}">
+                            Voir mon panier
+                        </a>
+                    </div>
+                </li>
                 @endforeach
             </ul>
             @else
@@ -123,7 +165,7 @@
         </li>
         <li>
             <a class="nav-link" href="#">
-                <img class="avatar-profile border-rounded rounded-circle"
+                <img class=" avatar-profile border-rounded rounded-circle"
                     src="https://uploads-ssl.webflow.com/5bddf05642686caf6d17eb58/5dc2fd00c29f7abeadd7c332_gPZwCbdS.jpg" />
             </a>
             <ul class="dropdown">

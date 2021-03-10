@@ -17,7 +17,7 @@
             <p class="card-text">{{$item->model->subtitle}}</p>
         </div>
         <div class="action d-flex justify-content-around my-3">
-            <a href="#" class="primary-btn w-75">
+            <a href="{{route('course.show', $item->model->slug)}}" class="primary-btn w-75">
                 <i class="fas fa-graduation-cap"></i>
                 Commencer
             </a>

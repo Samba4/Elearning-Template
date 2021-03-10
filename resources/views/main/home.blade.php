@@ -14,7 +14,12 @@
                         <li class="list-group-item">Écouter des cours en podcast</li>
                         <li class="list-group-item">Regarder des cours avec Chromecast ou l'Apple TV</li>
                     </ul>
-                    <a href="#" class="primary-btn my-5">Nous rejoindre</a>
+                    @guest
+                    <a href="{{route('login')}}" class="primary-btn my-5">Nous rejoindre</a>
+                    @endguest
+                    @auth
+                    <a href="{{route('courses')}}" class="primary-btn my-5">Nos cours</a>
+                    @endauth
                 </div>
             </div>
             <div class="col-lg-5">
@@ -30,7 +35,8 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="ha-pic mt-5">
-                    <img src="{{asset('img/apropos.jpg')}}" alt="">
+                    <img src="https://blog.cursuspro.com/wp-content/uploads/2017/07/CursusPro_Tendances_e-learning.jpg"
+                        alt="">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -46,7 +52,7 @@
                         <li><i class="fas fa-check"></i> Plus de 500 cours disponibles</li>
                         <li><i class="fas fa-check"></i> Contenu vidéo</li>
                     </ul>
-                    <a href="{{route('courses')}}" class="ha-btn">Voir les cours</a>
+                    <a href="#" class="ha-btn">Voir les cours</a>
                 </div>
             </div>
         </div>
@@ -65,6 +71,7 @@
             </div>
         </div>
     </div>
+    @foreach ($instructors as $instructor)
     <div class="member-item set-bg" data-setbg="{{asset('img/IMG-0506.jpg')}}">
         <div class="mi-social">
             <div class="mi-social-inner bg-gradient">
@@ -76,70 +83,11 @@
             </div>
         </div>
         <div class="mi-text text-center">
-            <h5>Samba COULIBALY</h5>
+            <h5>{{$instructor->prenom}} {{$instructor->nom}}</h5>
             <span>Formateur</span>
         </div>
     </div>
-    <div class="member-item set-bg" data-setbg="{{asset('img/IMG-0506.jpg')}}">
-        <div class="mi-social">
-            <div class="mi-social-inner bg-gradient">
-                <a href="https://github.com/Samba4" target="_blank"><i class="fa fa-github"></i></a>
-                <a href="https://instagram.com/petithulk" target="_blank"><i class="fa fa-instagram"></i></a>
-                <a href="https://twitter.com/petithulk" target="_blank"><i class="fa fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/in/samba-coulibaly/" target="_blank"><i
-                        class="fa fa-linkedin"></i></a>
-            </div>
-        </div>
-        <div class="mi-text text-center">
-            <h5>Samba COULIBALY</h5>
-            <span>Formateur</span>
-        </div>
-    </div>
-    <div class="member-item set-bg" data-setbg="{{asset('img/IMG-0506.jpg')}}">
-        <div class="mi-social">
-            <div class="mi-social-inner bg-gradient">
-                <a href="https://github.com/Samba4" target="_blank"><i class="fa fa-github"></i></a>
-                <a href="https://instagram.com/petithulk" target="_blank"><i class="fa fa-instagram"></i></a>
-                <a href="https://twitter.com/petithulk" target="_blank"><i class="fa fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/in/samba-coulibaly/" target="_blank"><i
-                        class="fa fa-linkedin"></i></a>
-            </div>
-        </div>
-        <div class="mi-text text-center">
-            <h5>Samba COULIBALY</h5>
-            <span>Formateur</span>
-        </div>
-    </div>
-    <div class="member-item set-bg" data-setbg="{{asset('img/IMG-0506.jpg')}}">
-        <div class="mi-social">
-            <div class="mi-social-inner bg-gradient">
-                <a href="https://github.com/Samba4" target="_blank"><i class="fa fa-github"></i></a>
-                <a href="https://instagram.com/petithulk" target="_blank"><i class="fa fa-instagram"></i></a>
-                <a href="https://twitter.com/petithulk" target="_blank"><i class="fa fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/in/samba-coulibaly/" target="_blank"><i
-                        class="fa fa-linkedin"></i></a>
-            </div>
-        </div>
-        <div class="mi-text text-center">
-            <h5>Samba COULIBALY</h5>
-            <span>Formateur</span>
-        </div>
-    </div>
-    <div class="member-item set-bg" data-setbg="{{asset('img/IMG-0506.jpg')}}">
-        <div class="mi-social">
-            <div class="mi-social-inner bg-gradient">
-                <a href="https://github.com/Samba4" target="_blank"><i class="fa fa-github"></i></a>
-                <a href="https://instagram.com/petithulk" target="_blank"><i class="fa fa-instagram"></i></a>
-                <a href="https://twitter.com/petithulk" target="_blank"><i class="fa fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/in/samba-coulibaly/" target="_blank"><i
-                        class="fa fa-linkedin"></i></a>
-            </div>
-        </div>
-        <div class="mi-text text-center">
-            <h5>Samba COULIBALY</h5>
-            <span>Formateur</span>
-        </div>
-    </div>
+    @endforeach
 </section>
 
 <section class="latest-blog spad">
@@ -154,15 +102,14 @@
             </div>
         </div>
         <div class="row">
-            @foreach ($suggestions as $suggestion)
+            @foreach ($udemy as $item)
             <div class="col-lg-6">
-                <div class="latest-item set-bg"
-                    data-setbg="/storage/courses/{{$suggestion->user_id}}/{{$suggestion->image}}">
-                    <div class="li-tag">{{$suggestion->price}} €</div>
+                <div class="latest-item set-bg" data-setbg="{{$item['image_480x270']}}">
+                    <div class="li-tag">{{$item['price_detail']['amount']}} €</div>
                     <div class="li-text">
-                        <h5><a href="{{route('course.show', $suggestion->slug)}}">{{$suggestion->title}}</a></h5>
-                        <span><i class="fa fas-user"></i> Par <b>{{$suggestion->user->prenom}}
-                                {{$suggestion->user->nom}}</b></span>
+                        <h5><a href="{{route('udemy.show', $item['id'])}}">{{$item['title']}}</a></h5>
+                        <span><i class="fa fas-user"></i> Par
+                            <b>{{$item['visible_instructors'][0]['display_name']}}</b></span>
                     </div>
                 </div>
             </div>

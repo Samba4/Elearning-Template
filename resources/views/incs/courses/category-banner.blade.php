@@ -1,9 +1,22 @@
-<div class="bd-title text-center">
-    <div class="bd-tag-share">
-        <div class="tag d-flex-lg text-md-center justify-content-around">
-            @foreach ($categories as $categorie)
-            <p class="primary-btn m-2">{{$categorie->name}}</p>
-            @endforeach
+@php
+use App\Category;
+@endphp
+
+<div class="ui secondary  menu">
+    <a href="{{route('courses')}}" class="item active">
+        Tous
+    </a>
+    @foreach (Category::all() as $item)
+    <a href="{{route('course.filter', $item->id) }}" class="item">
+        {{$item->name}}
+    </a>
+    @endforeach
+    <div class="right menu">
+        <div class="item">
+            <div class="ui icon input">
+                <input type="text" placeholder="Search...">
+                <i class="search link icon"></i>
+            </div>
         </div>
     </div>
 </div>

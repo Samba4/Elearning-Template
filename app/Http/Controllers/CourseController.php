@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Course;
 use App\Category;
+use App\CourseUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image as InterventionImage;
 
 class CourseController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -17,28 +22,10 @@ class CourseController extends Controller
     {
         $courses = Course::where('is_published', true)->get();
         $categories = Category::all();
-        return view('courses.index', compact('courses', 'categories'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('courses.index', [
+            'courses' => $courses,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -51,40 +38,35 @@ class CourseController extends Controller
     {
         $course = Course::where('slug', $slug)->firstOrFail();
         $recommandations = Course::where('is_published', true)->where('category_id', $course->category_id)->where('id', '!=', $course->id)->limit(3)->get();
-        return view('courses.show', compact('course', 'recommandations'));
+
+        if (Auth::user() == null) {
+            return view('courses.show', [
+                'course' => $course,
+                'recommandations' => $recommandations,
+            ]);
+        }
+        if (Auth::user()->paidCourses->where('title', $course->title)->count() != 0) {
+            $courseUser = CourseUser::where('user_id', Auth::user()->id)->get();
+            return view('participant.courses', [
+                'courseUser' => $courseUser,
+            ]);
+        } elseif (Auth::user()->courses->where('title', $course->title)->count() != 0) {
+            return view('instructor.index');
+        } else { /// si utilisateur connecté sans être proprietaire et client du cours
+            return view('courses.show', [
+                'course' => $course,
+                'recommandations' => $recommandations,
+            ]);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function filter($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $categorie = Category::find($id);
+        $courses = Course::where('category_id', $categorie->id)->where('is_published',  true)->get();
+        return view('courses.index', [
+            'courses' => $courses,
+            'categorie' => $categorie,
+        ]);
     }
 }

@@ -41,7 +41,7 @@ class UsersTableSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
                 'created_at' => Carbon::now(),
                 'password' => bcrypt('faker'), // secret
-                'remember_token' => Str::random(10)
+                'remember_token' => Str::random(10),
             ]);
         }
     }

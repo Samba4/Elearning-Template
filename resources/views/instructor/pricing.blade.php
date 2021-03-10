@@ -12,11 +12,7 @@
                     @csrf
                     <div class="content">
                         <p>Tarification en vigueur pour ce cours :
-                            @if ($course->price == '00.00')
-                            <strong>Cours offert</strong>
-                            @else
                             {{$course->price}}€
-                            @endif
                         </p>
                         <p>Choisissez un niveau de tarif pour votre cours ci-dessous et cliquez sur « Enregistrer ». Le
                             prix affiché visible par les participants dans d'autres devises est calculé à l'aide d'une
@@ -30,7 +26,7 @@
                     </div>
                     <div class="col-lg-12">
                         <select class="form-control" name="price">
-                            <option value="00.00" {{$course->price === 00.00 ? 'selected' : ''}}>Offert</option>
+                            <option value="02.99" {{$course->price === 02.99 ? 'selected' : ''}}>2,99</option>
                             <option value="04.99" {{$course->price === 04.99 ? 'selected' : ''}}>4,99 €</option>
                             <option value="09.99" {{$course->price === 09.99 ? 'selected' : ''}}>9,99 €</option>
                             <option value="14.99" {{$course->price === 14.99 ? 'selected' : ''}}>14,99 €</option>
@@ -48,15 +44,10 @@
                     </div>
 
                     <div class="col-lg-12 mt-2">
-
-                        @if ($course->price == "00.00")
-
-                        @else
                         <p class="text-dark">Après déduction des taxes et frais de services liés à la gestion de la
                             plateforme, vous receverez la somme de
                             <strong>{{round($course->price*0.65,2)}}€</strong> par cours vendus.
                         </p>
-                        @endif
                     </div>
                     <div class="col-lg-12 mt-5">
                         <button type="submit" class="primary-btn">

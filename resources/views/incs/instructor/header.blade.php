@@ -10,7 +10,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('instructor.participants', $course->id)}}">
+                        <a href="{{route('participants')}}">
                             <i class="fas fa-chalkboard-teacher"></i>
                             Participant
                         </a>

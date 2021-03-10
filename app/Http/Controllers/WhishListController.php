@@ -12,15 +12,19 @@ class WhishListController extends Controller
     public function store($id)
     {
         $course = Course::find($id);
-        $souhaits = \Cart::session(Auth::user()->id . '_whislist');
-        $souhaits->add([
-            'id' => $course->id,
-            'name' => $course->title,
-            'price' => $course->price,
-            'quantity' => 1,
-            'associatedModel' => $course,
-        ]);
-        return redirect()->back()->with('success', 'Votre formation à bien été ajouté à votre liste de souhaits');
+        if (Auth::user() == true) {
+            $souhaits = \Cart::session(Auth::user()->id . '_whislist');
+            $souhaits->add([
+                'id' => $course->id,
+                'name' => $course->title,
+                'price' => $course->price,
+                'quantity' => 1,
+                'associatedModel' => $course,
+            ]);
+            return redirect()->back()->with('success', 'Votre formation à bien été ajouté à votre liste de souhaits');
+        } else {
+            return redirect()->route('login');
+        }
     }
 
     public function destroy($id)
@@ -33,15 +37,19 @@ class WhishListController extends Controller
     public function toCart($id)
     {
         $course = Course::find($id);
-        \Cart::session(Auth::user()->id . '_whislist')->remove($id);
-        $add = \Cart::session(Auth::user()->id)->add([
-            'id' => $course->id,
-            'name' => $course->title,
-            'price' => $course->price,
-            'quantity' => 1,
-            'associatedModel' => $course,
-        ]);
-        return redirect()->route('panier')->with('success', 'Votre choix de formation à bien été déplacé au panier.');
+
+        if (Auth::user()->paidCourses->where('title', $course->title)->count() != 0 || Auth::user()->courses->where('title', $course->title)->count() != 0) {
+            return redirect()->back()->with('danger', 'Vous êtes proprietaire ou déjà détendeur de ce cours');
+        } else {
+            $add = \Cart::session(Auth::user()->id)->add([
+                'id' => $course->id,
+                'name' => $course->title,
+                'price' => $course->price,
+                'quantity' => 1,
+                'associatedModel' => $course,
+            ]);
+            return redirect()->back()->with('success', 'Votre formation à bien été ajoutée à votre panier');
+        }
     }
 
     public function toWishList($id)

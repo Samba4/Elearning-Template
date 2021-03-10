@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Managers\PaymentManager;
 use App\Payment;
 use Stripe\Stripe;
+use App\CourseUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Managers\PaymentManager;
 
 class CheckoutController extends Controller
 {
@@ -34,6 +35,7 @@ class CheckoutController extends Controller
         $total = $cart->getTotal();
         $realTotal = $cart->getTotal();
 
+
         try {
             $charge = \Stripe\Charge::create([
                 'amount' => $cart->getTotal() * 100,
@@ -47,6 +49,7 @@ class CheckoutController extends Controller
                 $instructor_part = $this->paymentManager->getInstructorPart(round($cart->getTotal()));
                 $kahier_part = $this->paymentManager->getKahierPart(round($cart->getTotal()));
                 $tva = $this->paymentManager->getTVA(round($cart->getTotal()));
+
                 Payment::create([
                     'course_id' => $item->model->id,
                     'amount' => $cart->getTotal(),
@@ -54,6 +57,11 @@ class CheckoutController extends Controller
                     'kahier_part' => $kahier_part,
                     'tva' => $tva,
                     'email' => Auth::user()->email,
+                ]);
+
+                CourseUser::create([
+                    'user_id' => Auth::user()->id,
+                    'course_id' => $item->model->id,
                 ]);
             }
             return redirect()->route('payment.succes')->with('success', 'Paiement accepté');
